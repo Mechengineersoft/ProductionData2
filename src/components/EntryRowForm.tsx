@@ -13,57 +13,34 @@ interface EntryRowFormProps {
   canRemove: boolean;
 }
 
+const CompactSelect = ({ value, onChange, options, placeholder, required = false }: { value: string; onChange: (val: string) => void; options: readonly string[]; placeholder: string; required?: boolean; }) => (
+  <Select value={value} onValueChange={onChange}>
+    <SelectTrigger className="h-8 text-xs bg-background border-input min-w-[70px]">
+      <SelectValue placeholder={placeholder} />
+    </SelectTrigger>
+    <SelectContent className="bg-popover z-50 max-h-60">
+      {options.map((opt) => (
+        <SelectItem key={opt} value={opt} className="text-xs">
+          {opt}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+);
+
+const CompactInput = ({ value, onChange, placeholder, type = "text", className = "" }: { value: string; onChange: (val: string) => void; placeholder: string; type?: string; className?: string; }) => (
+  <Input
+    type={type}
+    value={value}
+    onChange={(e) => onChange(e.target.value)}
+    placeholder={placeholder}
+    className={`h-8 text-xs bg-background border-input ${className}`}
+  />
+);
+
 export const EntryRowForm = ({ entry, index, onUpdate, onRemove, canRemove }: EntryRowFormProps) => {
   const [showHFields, setShowHFields] = useState(false);
 
-  const CompactSelect = ({
-    value,
-    onChange,
-    options,
-    placeholder,
-    required = false,
-  }: {
-    value: string;
-    onChange: (val: string) => void;
-    options: readonly string[];
-    placeholder: string;
-    required?: boolean;
-  }) => (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="h-8 text-xs bg-background border-input min-w-[70px]">
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent className="bg-popover z-50 max-h-60">
-        {options.map((opt) => (
-          <SelectItem key={opt} value={opt} className="text-xs">
-            {opt}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-
-  const CompactInput = ({
-    value,
-    onChange,
-    placeholder,
-    type = "text",
-    className = "",
-  }: {
-    value: string;
-    onChange: (val: string) => void;
-    placeholder: string;
-    type?: string;
-    className?: string;
-  }) => (
-    <Input
-      type={type}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      className={`h-8 text-xs bg-background border-input ${className}`}
-    />
-  );
 
   return (
     <div className="entry-row animate-fade-in">
